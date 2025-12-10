@@ -10,12 +10,11 @@ class DatabaseService {
   DatabaseService._internal();
 
   SupabaseClient get _supabase {
-    final client = SupabaseConfig.client;
-    if (client == null) {
+    if (!SupabaseConfig.isInitialized) {
       throw Exception(
           'Supabase not initialized. Please call SupabaseConfig.initialize() first.');
     }
-    return client;
+    return SupabaseConfig.client;
   }
 
   // =====================================================

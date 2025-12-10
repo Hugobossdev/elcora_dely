@@ -78,8 +78,9 @@ class AIService extends ChangeNotifier {
 
     for (var order in orderHistory) {
       for (var item in order.items) {
-        categoryFrequency[item.category] =
-            (categoryFrequency[item.category] ?? 0) + 1;
+        final categoryKey = item.category; // OrderItem.category est déjà une String
+        categoryFrequency[categoryKey] =
+            (categoryFrequency[categoryKey] ?? 0) + 1;
         itemFrequency[item.name] = (itemFrequency[item.name] ?? 0) + 1;
       }
     }
@@ -131,7 +132,8 @@ class AIService extends ChangeNotifier {
     int score = 0;
 
     // Category preference
-    score += (categoryFreq[item.category] ?? 0) * 3;
+    final categoryKey = item.category.displayName;
+    score += (categoryFreq[categoryKey] ?? 0) * 3;
 
     // Item preference
     score += (itemFreq[item.name] ?? 0) * 5;
@@ -186,16 +188,18 @@ class AIService extends ChangeNotifier {
       MenuItem baseItem, List<MenuItem> menuItems) {
     List<MenuItem> suggestions = [];
 
-    // Rule-based suggestions
-    if (baseItem.category == 'Burgers') {
+    // Rule-based suggestions basées sur l'enum MenuCategory
+    if (baseItem.category == MenuCategory.burgers) {
       suggestions.addAll(menuItems.where((item) =>
-          item.category == 'Accompagnements' || item.category == 'Boissons'));
-    } else if (baseItem.category == 'Pizza') {
+          item.category == MenuCategory.sides ||
+          item.category == MenuCategory.drinks));
+    } else if (baseItem.category == MenuCategory.pizzas) {
       suggestions.addAll(menuItems.where((item) =>
-          item.category == 'Boissons' || item.category == 'Desserts'));
-    } else if (baseItem.category == 'Boissons') {
-      suggestions
-          .addAll(menuItems.where((item) => item.category == 'Desserts'));
+          item.category == MenuCategory.drinks ||
+          item.category == MenuCategory.desserts));
+    } else if (baseItem.category == MenuCategory.drinks) {
+      suggestions.addAll(
+          menuItems.where((item) => item.category == MenuCategory.desserts));
     }
 
     return suggestions.take(3).toList();
@@ -249,15 +253,18 @@ class AIService extends ChangeNotifier {
   }
 
   List<String> _getTopCategories(List<Order> orders) {
-    Map<String, int> categoryCount = {};
+    // Compter par catégorie (clé String issue de OrderItem.category)
+    final Map<String, int> categoryCount = {};
 
     for (var order in orders) {
       for (var item in order.items) {
-        categoryCount[item.category] = (categoryCount[item.category] ?? 0) + 1;
+        final categoryKey = item.category;
+        categoryCount[categoryKey] =
+            (categoryCount[categoryKey] ?? 0) + 1;
       }
     }
 
-    var sorted = categoryCount.entries.toList()
+    final sorted = categoryCount.entries.toList()
       ..sort((a, b) => b.value.compareTo(a.value));
 
     return sorted.take(3).map((e) => e.key).toList();
@@ -273,3 +280,4 @@ class AIService extends ChangeNotifier {
     notifyListeners();
   }
 }
+

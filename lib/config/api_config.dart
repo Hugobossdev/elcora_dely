@@ -3,9 +3,9 @@ import 'package:flutter/foundation.dart';
 /// Configuration centralisée des clés API pour l'application Deliver
 class ApiConfig {
   // Configuration Supabase
-  static const String supabaseUrl = "https://fuvgfvonpivubkrvnsdt.supabase.co";
+  static const String supabaseUrl = "https://vsdmcqldshttrbilcvle.supabase.co";
   static const String supabaseAnonKey =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1dmdmdm9ucGl2dWJrcnZuc2R0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI2OTM0MDUsImV4cCI6MjA3ODI2OTQwNX0.32onFnZ4vMQxkdh_oUS1oHsGUFX4SXhrb_388qnuS58';
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZzZG1jcWxkc2h0dHJiaWxjdmxlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUyMTY5MDcsImV4cCI6MjA4MDc5MjkwN30.LW28V62UX0q7omv0zmD_G5DKqiWDoWXfBCM4eQrvXZA';
 
   // Configuration Google Maps
   static const String googleMapsApiKey =

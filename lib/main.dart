@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:elcora_dely/l10n/app_localizations.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'theme.dart';
 import 'services/app_service.dart';
 import 'services/location_service.dart';
@@ -46,13 +47,17 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   try {
+    // Load environment variables
+    await dotenv.load(fileName: ".env");
+    debugPrint('✅ Environment variables loaded');
+
     // Initialize core services only
     await _initializeCoreServices();
 
     debugPrint('✅ Core services initialized successfully');
   } catch (e, stackTrace) {
     final errorMessage = e.toString();
-    debugPrint('❌ Error initializing core services: $errorMessage');
+    debugPrint('❌ Error initializing services: $errorMessage');
     debugPrint('Stack trace: $stackTrace');
     // Continue with app launch even if some services fail
     // The app can work in offline mode or with cached data
